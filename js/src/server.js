@@ -5,10 +5,23 @@ const pool = require("./config/db");
 const estoqueRoutes = require("./routes/estoque.routes");
 
 const app = express();
-const port = Number(process.env.PORT) || 3000;
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Apply a permissive Content Security Policy only in non-production environments
+if (process.env.NODE_ENV !== 'production') {
+  console.log('CSP middleware active (development): permissive CSP applied');
+
+  app.use((req, res, next) => {
+    res.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self' http: https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src *; img-src * data:; style-src 'self' 'unsafe-inline'; font-src * data:;"
+    );
+    next();
+  });
+}
 
 app.get("/health", async (_req, res) => {
   try {
