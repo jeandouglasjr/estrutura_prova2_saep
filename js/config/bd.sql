@@ -4,6 +4,7 @@ USE empresa;
 
 DROP TABLE IF EXISTS movimentacao;
 DROP TABLE IF EXISTS produto;
+DROP TABLE IF EXISTS usuario;
 
 CREATE TABLE produto (
     id_produto INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -15,6 +16,15 @@ CREATE TABLE produto (
     maximo_estoque INT NOT NULL
 );
 
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    nivel_acesso INT NOT NULL DEFAULT 0 COMMENT '0=usuario, 1=administrador',
+    data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
+);
+
 CREATE TABLE movimentacao (
     id_movimentacao INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     tipo VARCHAR(10) NOT NULL,
@@ -24,6 +34,10 @@ CREATE TABLE movimentacao (
     CONSTRAINT chk_tipo CHECK (tipo IN ('ENTRADA', 'SAIDA')),
     CONSTRAINT fk_movimentacao_produto FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
+
+INSERT INTO usuario (email, senha, nivel_acesso) VALUES
+('admin@empresa.com', '$2a$10$YourHashedPasswordHere', 1),
+('user@empresa.com', '$2a$10$YourHashedPasswordHere', 0);
 
 INSERT INTO produto (nome, quantidade_estoque, valor_unitario, minimo_estoque, maximo_estoque) VALUES
 ('Amaciante de roupas', 100, 0.50, 20, 150),

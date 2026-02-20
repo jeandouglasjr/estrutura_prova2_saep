@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const pool = require("./config/db");
 const estoqueRoutes = require("./routes/estoque.routes");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 const port = 3000;
@@ -33,7 +34,29 @@ app.get("/health", async (_req, res) => {
 });
 
 app.use("/", estoqueRoutes);
+app.use("/", userRoutes);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`API Node rodando em http://localhost:${port}`);
+});
+
+// Permitir reutilização de porta em caso de reinicialização
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Porta ${port} já está em uso!`);
+    console.error('Tentando novamente em 3 segundos...');
+    setTimeout(() => {
+      server.close();
+      server.listen(port);
+    }, 3000);
+  }
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM recebido. Fechando servidor...');
+  server.close(() => {
+    console.log('Servidor fechado');
+    process.exit(0);
+  });
 });

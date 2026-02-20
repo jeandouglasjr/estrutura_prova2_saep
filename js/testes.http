@@ -1,0 +1,72 @@
+### Variáveis
+@baseUrl = http://localhost:3000
+@adminToken = 
+
+### 1. Health Check
+GET {{baseUrl}}/health
+
+### 2. Registrar novo usuário (USER)
+POST {{baseUrl}}/auth/registrar
+Content-Type: application/json
+
+{
+  "email": "usuario@empresa.com",
+  "senha": "senha123"
+}
+
+### 3. Registrar Admin
+POST {{baseUrl}}/auth/registrar
+Content-Type: application/json
+
+{
+  "email": "admin@empresa.com",
+  "senha": "admin123"
+}
+
+### 4. Login (obter token)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@empresa.com",
+  "senha": "admin123"
+}
+
+### 5. Listar todos os usuários (ADMIN)
+GET {{baseUrl}}/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQGVtcHJlc2EuY29tIiwibml2ZWxfYWNlc3NvIjoxLCJpYXQiOjE3MDgzNTE0MjMsImV4cCI6MTcwODQzNzgyM30.u5t0-Kl-M6e2BjLm0n6p3r2s4t5u6v7w8x9y0z1a2b
+
+### 6. Obter usuário específico (ADMIN)
+GET {{baseUrl}}/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQGVtcHJlc2EuY29tIiwibml2ZWxfYWNlc3NvIjoxLCJpYXQiOjE3MDgzNTE0MjMsImV4cCI6MTcwODQzNzgyM30.u5t0-Kl-M6e2BjLm0n6p3r2s4t5u6v7w8x9y0z1a2b
+
+### 7. Criar novo usuário (ADMIN)
+POST {{baseUrl}}/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQGVtcHJlc2EuY29tIiwibml2ZWxfYWNlc3NvIjoxLCJpYXQiOjE3MDgzNTE0MjMsImV4cCI6MTcwODQzNzgyM30.u5t0-Kl-M6e2BjLm0n6p3r2s4t5u6v7w8x9y0z1a2b
+Content-Type: application/json
+
+{
+  "email": "novo.usuario@empresa.com",
+  "senha": "nova123",
+  "nivel_acesso": 0
+}
+
+### 8. Editar usuário (ADMIN)
+PUT {{baseUrl}}/users/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQGVtcHJlc2EuY29tIiwibml2ZWxfYWNlc3NvIjoxLCJpYXQiOjE3MDgzNTE0MjMsImV4cCI6MTcwODQzNzgyM30.u5t0-Kl-M6e2BjLm0n6p3r2s4t5u6v7w8x9y0z1a2b
+Content-Type: application/json
+
+{
+  "email": "usuario.editado@empresa.com",
+  "nivel_acesso": 1
+}
+
+### 9. Deletar usuário (ADMIN)
+DELETE {{baseUrl}}/users/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJlbWFpbCI6ImFkbWluQGVtcXJlc2EuY29tIiwibml2ZWxfYWNlc3NvIjoxLCJpYXQiOjE3MDgzNTE0MjMsImV4cCI6MTcwODQzNzgyM30.u5t0-Kl-M6e2BjLm0n6p3r2s4t5u6v7w8x9y0z1a2b
+
+### NOTAS:
+# 1. Substitua os tokens pelos tokens reais obtidos após fazer login
+# 2. Para usar este arquivo no VS Code, instale a extensão "REST Client" (humao.rest-client)
+# 3. Clique em "Send Request" acima de cada requisição para testá-la
+# 4. Os tokens JWT expiram após 24 horas
